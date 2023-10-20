@@ -1,0 +1,60 @@
+<div class="Product__Tabs">
+{% assign description_parts = product.description | split: '<h5>' %}
+
+<div class="Rte">
+{{ description_parts.first }}
+</div>
+<br/>
+
+{% assign description_parts = product.description | split: '<h5>' %}
+{% if product.description contains '<h5>' %}
+{% for part in description_parts %}
+{% unless forloop.index == 1 %}
+{% unless part == blank %}
+{% assign part_parts = part | split: '</h5>' %}
+
+
+
+<details class="accordion {% if size %}accordion--{{ size }}{% endif %} group {% if bleed %}bleed sm:unbleed{% endif %}" is="{{ is | default: 'accordion-disclosure' }}" {% if open %}open aria-expanded="true"{% else %}aria-expanded="false"{% endif %} {{ block.shopify_attributes }}>
+  <summary>
+    {%- comment -%}iOS 14 does not support flex on the summary itself, so we have to use this extra div{%- endcomment -%}
+    <span class="accordion__toggle {% if show_title_as_text %}text-lg{% else %}h6{% endif %}">
+      {%- if custom_icon != blank or icon != 'none' -%}
+        <span class="text-with-icon gap-4">
+          {%- if custom_icon != blank -%}
+            {{- custom_icon | image_url: width: custom_icon.width | image_tag: loading: 'lazy', sizes: '16px', widths: '16,32,48', class: 'constrained-image', style: '--image-max-width: 16px' -}}
+          {%- else -%}
+            {%- render 'icon' with icon, width: 16 -%}
+          {%- endif -%}
+
+          {{- part_parts.first -}}
+        </span>
+      {%- else -%}
+        <span>{{- part_parts.first -}}</span>
+      {%- endif -%}
+
+      {%- if show_arrow -%}
+        {%- render 'icon' with 'chevron-down', class: 'group-expanded:rotate' -%}
+      {%- else -%}
+        <span class="animated-plus group-expanded:rotate" aria-hidden="true"></span>
+      {%- endif -%}
+    </span>
+  </summary>
+
+  <div class="accordion__content {% if prose_content %}prose{% endif %}">
+    <div class="accordion__content {% if prose_content %}prose{% endif %}">
+    {% for part_part in part_parts %}
+        {% if part_part contains '<' %}
+            {{- part_part | safe -}}
+        {% endif %}
+    {% endfor %}
+</div>
+
+  </div>
+</details>
+
+{% endunless %}  
+{% endunless %}  
+  
+{% endfor %}
+{% endif %}

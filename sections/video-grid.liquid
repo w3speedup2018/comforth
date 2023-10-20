@@ -1,0 +1,53 @@
+<div class="video-grid-section">
+  <div class="page-width">
+    <div class="video-grid-content">
+      {% if section.settings.title != blank %}
+      <div class="video-grid-head">
+        <h2 class="title">{{ section.settings.title }}</h2>
+      </div>
+      {% endif %}
+      <div class="video-grid-blocks">
+        {% for block in section.blocks %}
+          <div class="video-grid-block">
+            <iframe src="https://www.youtube.com/embed/{{ block.settings.external_video_url.id }}?start=0&amp;autoplay=0&amp;loop=0&amp;mute=0&amp;controls=0&amp;enablejsapi=1" allowfullscreen="" width="100%" height="320" allow="autoplay" title="Paulina Rojas Anmeldelse af Comforth MicroDerm"></iframe>
+         
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name": "Video Grid Section",
+    "settings": [
+      {
+        "type" : "text",
+        "id" : "title",
+        "label" : "Title"
+      }
+    ],
+    "blocks" : [
+      {
+        "type" : "video",
+        "name" : "Video",
+        "settings" : [
+         
+          {
+            "type": "video_url",
+            "id": "external_video_url",
+            "accept": ["vimeo", "youtube"],
+            "label": "t:global.video.video_url",
+            "default": "https://www.youtube.com/watch?v=_9VUPq3SxOc"
+          }
+        ]
+      }
+    ],
+    "presets" : [
+      {
+        "name": "Video Grid Section"
+      }
+    ]
+  }
+{% endschema %}

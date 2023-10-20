@@ -1,0 +1,414 @@
+{%- if section.blocks.size > 0 -%}
+  <div class="section-spacing {% if section.settings.separate_section_with_border %}bordered-section{% endif %}">
+    <div class="container container--md">
+      <div class="section-stack">
+        {%- render 'section-header', subheading: section.settings.subheading, heading: section.settings.title, content: section.settings.content -%}
+
+        <div class="faq">
+          {%- assign categories_blocks = section.blocks | where: 'type', 'category' -%}
+
+          {%- if section.settings.show_categories and categories_blocks.size > 0 -%}
+            <faq-toc class="faq__toc hidden md:grid">
+              {%- for block in categories_blocks -%}
+                <a class="faq__toc-item {% if forloop.first %}is-active{% endif %}" href="#block-{{ block.id }}">{{ block.settings.title }}</a>
+              {%- endfor -%}
+            </faq-toc>
+          {%- endif -%}
+
+          <div class="faq__content">
+            {%- for block in section.blocks -%}
+              {%- case block.type -%}
+                {%- when 'category' -%}
+                  {%- if block.settings.title != blank -%}
+                    {%- assign associated_category = block.settings.associated_category | default: 'Category1' %}
+                    <p id="block-{{ block.id }}" class="faq__category h4 category-title" data-category="{{ associated_category }}">
+                    {%- if block.settings.custom_icon != blank -%}
+                      {%- capture sizes -%}{{ block.settings.icon_width }}px{%- endcapture -%}
+                      {%- capture widths -%}{{ block.settings.icon_width }}, {{ block.settings.icon_width | times: 2 | at_most: block.settings.custom_icon.width }}{%- endcapture -%}
+                      {%- capture style -%}--image-max-width: {{ block.settings.icon_width }}px{%- endcapture -%}
+
+                      {{- block.settings.custom_icon | image_url: width: block.settings.custom_icon.width | image_tag: loading: 'lazy', sizes: sizes, widths: widths, class: 'constrained-image', style: style -}}
+                    {%- elsif block.settings.icon != 'none' -%}
+                      {%- render 'icon' with block.settings.icon, width: block.settings.icon_width -%}
+                    {%- endif -%}
+
+                      {{- block.settings.title -}}
+                    </p>
+                  {%- endif -%}
+
+                {%- when 'question' -%}
+                  {%- assign associated_category = block.settings.category -%}
+                  {%- if block.settings.question != blank and block.settings.answer != blank -%}
+                    {%- capture answer -%}
+                      <div class="prose">
+                        {{- block.settings.answer -}}
+                      </div>
+                    {%- endcapture -%}
+
+                    {%- if section.settings.show_categories -%}
+                      <div class="faq__question-wrapper" data-category="{{ associated_category }}">
+                        <details id="block-{{ block.id }}" class="faq__question">
+                          <summary>
+                            {%- if block.settings.question != blank -%}
+                              <h5>{{ block.settings.question }}</h5>
+                            {%- endif -%}
+                          </summary>
+                          {{ answer }}
+                        </details>
+                      </div>
+                    {%- else -%}
+                     {%- render 'accordion', title: block.settings.question, content: answer, show_title_as_text: true, block: block, category: associated_category -%}
+
+                    {%- endif -%}
+                  {%- endif -%}
+              {%- endcase -%}
+            {%- endfor -%}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<style>
+  .faq__category {
+    cursor: pointer;
+}
+        /* CSS to initially hide specific details elements */
+details[data-category="Category1"],
+details[data-category="Category2"],
+details[data-category="Category3"],
+details[data-category="Category4"],
+details[data-category="Category5"],
+details[data-category="Category6"],
+details[data-category="Category7"],
+details[data-category="Category8"],
+details[data-category="Category9"],
+details[data-category="Category10"] {
+    display: none;
+}
+/* Initial styling with "+" icon */
+.faq__category::after {
+    content: '+';
+    margin-left: 5px; /* Add spacing between the text and icon */
+    font-weight: bold; /* Make the icon bold, if desired */
+    font-size: 20px; /* Adjust the font size to your preference */
+}
+
+/* Styling when rc-custom-open class is present with "-" icon */
+.faq__category.rc-custom-open::after {
+    content: '-';
+    margin-left: 5px; /* Add spacing between the text and icon */
+    font-weight: bold; /* Make the icon bold, if desired */
+    font-size: 20px; /* Adjust the font size to your preference */
+    transform: rotate(0deg); /* Reset any rotation from the "+" icon */
+}
+    </style>
+
+<script>
+  // Function to toggle the visibility of accordions with matching data-category attribute
+  function toggleAccordions(category) {
+    const accordions = document.querySelectorAll('details[data-category="' + category + '"]');
+    accordions.forEach(function(accordion) {
+      if (accordion.style.display === 'none' || accordion.style.display === '') {
+        accordion.style.display = 'block';
+      } else {
+        accordion.style.display = 'none';
+      }
+    });
+  }
+
+  // Function to toggle the rc-custom-open class on .faq__category element
+  function toggleCategoryOpen(event) {
+    const categoryBlock = event.currentTarget;
+    categoryBlock.classList.toggle('rc-custom-open');
+    const category = categoryBlock.getAttribute('data-category');
+    toggleAccordions(category);
+  }
+
+  // Event listener for all elements with class "faq__category"
+  const categoryBlocks = document.querySelectorAll('.faq__category');
+  categoryBlocks.forEach(function(categoryBlock) {
+    categoryBlock.addEventListener('click', toggleCategoryOpen);
+  });
+</script>
+
+  
+  {%- comment -%}We also output the content with JSON microdata for SEO{%- endcomment -%}
+
+  <script type="application/ld+json">
+    {%- assign question_blocks = section.blocks | where: 'type', 'question' -%}
+
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {%- for block in question_blocks -%}
+          {
+            "@type": "Question",
+            "name": {{ block.settings.question | json }},
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": {{ block.settings.answer | json }}
+            }
+          }{% unless forloop.last %},{% endunless %}
+        {%- endfor -%}
+      ]
+    }
+  </script>
+
+    
+{%- endif -%}
+
+
+{% schema %}
+{
+  "name": "t:sections.faq.name",
+  "class": "shopify-section--faq",
+  "tag": "section",
+  "disabled_on": {
+    "groups": ["header", "custom.overlay"]
+  },
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "separate_section_with_border",
+      "label": "t:global.section.separate_section_with_border",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_categories",
+      "label": "t:sections.faq.show_categories"
+    },
+    {
+      "type": "header",
+      "content": "t:global.section.header_category"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "subheading",
+      "label": "t:global.text.subheading",
+      "default": "Need help?"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "title",
+      "label": "t:global.text.heading",
+      "default": "Frequently Asked Questions"
+    },
+    {
+      "type": "richtext",
+      "id": "content",
+      "label": "t:global.text.content"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "category",
+      "name": "t:sections.faq.blocks.category.name",
+      "settings": [
+        {
+          "type": "inline_richtext",
+          "id": "title",
+          "label": "t:global.text.title",
+          "default": "Category"
+        },
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "t:global.icons.icon",
+          "options": [
+            {
+              "value": "none",
+              "label": "t:global.icons.none"
+            },
+            {
+              "value": "picto-award-gift",
+              "label": "t:global.icons.award_gift",
+              "group": "t:global.icons.shop_category"
+            },
+            {
+              "value": "picto-bag-handle",
+              "label": "t:global.icons.bag_handle",
+              "group": "t:global.icons.shop_category"
+            },
+            {
+              "value": "picto-building",
+              "label": "t:global.icons.building",
+              "group": "t:global.icons.shop_category"
+            }
+          ],
+          "default": "none"
+        },
+        {
+          "type": "image_picker",
+          "id": "custom_icon",
+          "label": "t:global.icons.custom_icon",
+          "info": "t:global.icons.custom_icon_info"
+        },
+        {
+          "type": "range",
+          "id": "icon_width",
+          "min": 12,
+          "max": 32,
+          "step": 4,
+          "unit": "px",
+          "label": "t:global.icons.icon_width",
+          "default": 16
+        },
+        {
+          "type": "select",
+          "id": "associated_category",
+          "label": "Associated Category",
+          "options": [
+            {
+              "value": "Category1",
+              "label": "Category 1"
+            },
+            {
+              "value": "Category2",
+              "label": "Category 2"
+            },
+            {
+              "value": "Category3",
+              "label": "Category 3"
+            },
+            {
+              "value": "Category4",
+              "label": "Category 4"
+            },
+            {
+              "value": "Category5",
+              "label": "Category 5"
+            },
+            {
+              "value": "Category6",
+              "label": "Category 6"
+            },
+            {
+              "value": "Category7",
+              "label": "Category 7"
+            },
+            {
+              "value": "Category8",
+              "label": "Category 8"
+            },
+            {
+              "value": "Category9",
+              "label": "Category 9"
+            },
+            {
+              "value": "Category10",
+              "label": "Category 10"
+            }
+          ],
+          "default": "Category1"
+        }
+      ]
+    },
+    {
+      "type": "question",
+      "name": "t:sections.faq.blocks.question.name",
+      "settings": [
+        {
+          "type": "select",
+          "id": "category",
+          "label": "Category",
+          "options": [
+            {
+              "value": "Category1",
+              "label": "Category 1"
+            },
+            {
+              "value": "Category2",
+              "label": "Category 2"
+            },
+            {
+              "value": "Category3",
+              "label": "Category 3"
+            },
+            {
+              "value": "Category4",
+              "label": "Category 4"
+            },
+            {
+              "value": "Category5",
+              "label": "Category 5"
+            },
+            {
+              "value": "Category6",
+              "label": "Category 6"
+            },
+            {
+              "value": "Category7",
+              "label": "Category 7"
+            },
+            {
+              "value": "Category8",
+              "label": "Category 8"
+            },
+            {
+              "value": "Category9",
+              "label": "Category 9"
+            },
+            {
+              "value": "Category10",
+              "label": "Category 10"
+            }
+          ],
+          "default": "Category1"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "question",
+          "label": "t:sections.faq.blocks.question.question",
+          "default": "Question"
+        },
+        {
+          "type": "richtext",
+          "id": "answer",
+          "label": "t:sections.faq.blocks.question.answer",
+          "default": "<p>Write a clear and concise answer to guide your customers.</p>"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.faq.presets.faq.name",
+      "blocks": [
+        {
+          "type": "category",
+          "settings": {
+            "title": "Order"
+          }
+        },
+        {
+          "type": "question",
+          "settings": {
+            "category": "Category1",
+            "question": "Do you ship overseas?",
+            "answer": "<p>Yes, we ship all over the world. Shipping costs will apply, and will be added at checkout. We run discounts and promotions all year, so stay tuned for exclusive deals.</p>"
+          }
+        },
+        {
+          "type": "question",
+          "settings": {
+            "category": "Category2",
+            "question": "How long will it take to get my orders?",
+            "answer": "<p>It depends on where you are. Orders processed here will take 5-7 business days to arrive. Overseas deliveries can take anywhere from 7-16 days. Delivery details will be provided in your confirmation email.</p>"
+          }
+        },
+        {
+          "type": "question",
+          "settings": {
+            "category": "Category3",
+            "question": "Any question?",
+            "answer": "<p>You can contact us through our contact page! We will be happy to assist you.</p>"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+

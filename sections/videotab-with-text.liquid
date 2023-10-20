@@ -1,0 +1,159 @@
+<div class="videotab-with-text">
+  <div class="page-width">
+    <div class="vit-grid">
+      <div class="vit-griditem">
+        
+        <div data-pf-type="HTML.Video" class="sc-edERGn hbAevH pf-76_">
+          <div class="video-container">
+            <video id="video-player" controls muted poster="{{ section.settings.thumbnail_1 | img_url: 'master' }}">
+              <source src="{{ section.settings.video_1 }}" type="video/mp4">
+            </video>
+            <h2 class="headline1">{{ section.settings.video_header_1 }}</h2>
+            <div class="thumbnails">
+              <img src="{{ section.settings.thumbnail_1 | img_url: 'master' }}" data-video="{{ section.settings.video_1 }}" data-headline="{{ section.settings.video_header_1 }}" alt="{{ section.settings.video_header_1 }}" class="highlight">
+              <img src="{{ section.settings.thumbnail_2 | img_url: 'master' }}" data-video="{{ section.settings.video_2 }}" data-headline="{{ section.settings.video_header_2 }}" alt="{{ section.settings.video_header_2 }}">                     
+              <img src="{{ section.settings.thumbnail_3 | img_url: 'master' }}" data-video="{{ section.settings.video_3 }}" data-headline="{{ section.settings.video_header_3 }}" alt="{{ section.settings.video_header_3 }}">                     
+              <img src="{{ section.settings.thumbnail_4 | img_url: 'master' }}" data-video="{{ section.settings.video_4 }}" data-headline="{{ section.settings.video_header_4 }}" alt="{{ section.settings.video_header_4 }}">                     
+              <img src="{{ section.settings.thumbnail_5 | img_url: 'master' }}" data-video="{{ section.settings.video_5 }}" data-headline="{{ section.settings.video_header_5 }}" alt="{{ section.settings.video_header_5 }}">                     
+            </div>
+          </div>       
+        </div>
+        
+      </div>
+      <div class="vit-griditem">
+        <div class="prose">
+            {%- if section.settings.subheading != blank -%}
+              <p class="h6">{{ section.settings.subheading }}</p>
+            {%- endif -%}
+
+            {%- if section.settings.title != blank -%}
+              <p class="h3">{{ section.settings.title }}</p>
+            {%- endif -%}
+             
+            {{- section.settings.content -}}
+
+            {%- if section.settings.button_1_text != blank or section.settings.button_2_text != blank -%}
+              <div class="button-group">
+                {%- if section.settings.button_1_text != blank -%}
+                  {%- render 'button', href: section.settings.button_1_link, content: section.settings.button_1_text, style: section.settings.button_1_style, background: section.settings.button_background, text_color: section.settings.button_text_color -%}
+                {%- endif -%}
+
+                {%- if section.settings.button_2_text != blank -%}
+                  {%- render 'button', href: section.settings.button_2_link, content: section.settings.button_2_text, style: section.settings.button_2_style, background: section.settings.button_background, text_color: section.settings.button_text_color -%}
+                {%- endif -%}
+              
+              </div>
+            {%- endif -%}
+          </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+{% schema %}
+{
+  "name": "Videotab With Text",
+  "settings": [
+    {
+      "type": "inline_richtext",
+      "id": "subheading",
+      "label": "t:global.text.subheading",
+      "default": "About"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "title",
+      "label": "t:global.text.heading",
+      "default": "Showcase your product"
+    },
+    {
+      "type": "richtext",
+      "id": "content",
+      "label": "t:global.text.content",
+      "default": "<p>Write some content about your products, collections or brand. Use image or video to create an impactful layout.</p>"
+    },
+    {
+      "type": "text",
+      "id": "video_1",
+      "label": "Video 1 URL"
+    },
+    {
+      "type": "image_picker",
+      "id": "thumbnail_1",
+      "label": "Thumbnail på video 1"
+    },
+    {
+      "type": "text",
+      "id": "video_header_1",
+      "label": "Titel på video 1"
+    },
+    {
+      "type": "text",
+      "id": "video_2",
+      "label": "Video 2 URL"
+    },
+    {
+      "type": "image_picker",
+      "id": "thumbnail_2",
+      "label": "Thumbnail på video 2"
+    },
+    {
+      "type": "text",
+      "id": "video_header_2",
+      "label": "Titel på video 2"
+    },
+    {
+      "type": "text",
+      "id": "video_3",
+      "label": "Video 3 URL"
+    },
+    {
+      "type": "image_picker",
+      "id": "thumbnail_3",
+      "label": "Thumbnail på video 3"
+    },
+    {
+      "type": "text",
+      "id": "video_header_3",
+      "label": "Titel på video 3"
+    },
+    {
+      "type": "text",
+      "id": "video_4",
+      "label": "Video 4 URL"
+    },
+    {
+      "type": "image_picker",
+      "id": "thumbnail_4",
+      "label": "Thumbnail på video 4"
+    },
+    {
+      "type": "text",
+      "id": "video_header_4",
+      "label": "Titel på video 4"
+    },
+    {
+      "type": "text",
+      "id": "video_5",
+      "label": "Video 5 URL"
+    },
+    {
+      "type": "image_picker",
+      "id": "thumbnail_5",
+      "label": "Thumbnail på video 5"
+    },
+    {
+      "type": "text",
+      "id": "video_header_5",
+      "label": "Titel på video 5"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Videotab With Text"
+    }
+  ]
+}
+{% endschema %}

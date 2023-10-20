@@ -1,0 +1,143 @@
+
+
+<div data-section-id="pf-0b91" data-pf-type="Section" class="sc-gHjyzD fopdnV pf-357_ pf-hide custom-hotspot">
+  <div style="--cw:1170px" class="sc-JEhMO dxozkW page-width">
+
+    {% if section.settings.show-block1 == true %}
+    <div class="hotspot-grid sc-faUpoM jULbDz pf-358_ pf-r pf-r-eh" style="--s-xs:15px" data-pf-type="Row">
+      <div class="pf-c hotspot-grid-item" style="--c-xs:12;--c-sm:6;--c-md:6;--c-lg:6">
+        <div data-pf-type="Column" class="sc-fydGpi bMfPUC pf-359_"{% if section.settings.color != blank %} style="color: {{ section.settings.color }}"{% endif %}>
+           {% if section.settings.title1 != blank %}<h3 class="h3">{{ section.settings.title1 }}</h3>{% endif %}
+          {% if section.settings.content1 != blank %}
+            <div class="hs-item-content">
+              {{ section.settings.content1 }}
+            </div>
+          {% endif %}
+          {% if section.settings.contentbot1 != blank %}
+            <div class="hs-item-content bot-con">
+              {{ section.settings.contentbot1 }}
+            </div>
+          {% endif %}
+        </div>
+      </div>
+      <div class="pf-c hotspot-grid-item" style="--c-xs:12;--c-sm:6;--c-md:6;--c-lg:6">
+        <div data-pf-type="Column" class="sc-fydGpi bMfPUC pf-376_">
+           <div data-pf-type="Custom.HTML" class="sc-jlsrNB bHCmnc pf-377_">
+              <div class="iactiveImg" data-ii="24854"></div>
+              <script src="https://interactive-img.com/js/include.js"></script>
+           </div>
+        </div>
+      </div>
+      <div class="hotspot-grid-item">
+        {% if section.settings.contentbot1 != blank %}
+            <div class="hs-item-content bot-con">
+              {{ section.settings.contentbot1 }}
+            </div>
+          {% endif %}
+      </div>
+    </div>
+    {% endif %}
+
+    {% if section.settings.show-block2 == true %}
+    <div class="hotspot-grid sc-faUpoM jULbDz pf-378_ pf-r pf-r-eh" style="--s-xs:15px" data-pf-type="Row">
+      <div class="pf-c hotspot-grid-item" style="--c-xs:12;--c-sm:6;--c-md:6;--c-lg:6">
+        <div data-pf-type="Column" class="sc-fydGpi bMfPUC pf-379_">
+           <div data-pf-type="Custom.HTML" class="sc-jlsrNB bHCmnc pf-380_">
+              <div class="iactiveImg" data-ii="24853"></div>
+              <script src="https://interactive-img.com/js/include.js"></script>
+           </div>
+        </div>
+        </div>
+        <div class="pf-c hotspot-grid-item" style="--c-xs:12;--c-sm:6;--c-md:6;--c-lg:6">
+        <div data-pf-type="Column" class="sc-fydGpi bMfPUC pf-381_"{% if section.settings.color != blank %} style="color: {{ section.settings.color }}"{% endif %}>
+          {% if section.settings.title2 != blank %}<h3 class="h3">{{ section.settings.title2 }}</h3>{% endif %}
+          {% if section.settings.content2 != blank %}
+            <div class="hs-item-content">
+              {{ section.settings.content2 }}
+            </div>
+          {% endif %}
+          {% if section.settings.contentbot2 != blank %}
+            <div class="hs-item-content bot-con">
+              {{ section.settings.contentbot2 }}
+            </div>
+          {% endif %}
+        </div>
+      </div>
+      <div class="hotspot-grid-item">
+        {% if section.settings.contentbot2 != blank %}
+            <div class="hs-item-content bot-con">
+              {{ section.settings.contentbot2 }}
+            </div>
+          {% endif %}
+      </div>
+    </div>
+    {% endif %}
+    
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name": "Custom Hotspot Section",
+    "settings": [
+      {
+        "type" : "color",
+        "id" : "color",
+        "label" : "Text Color"
+      },
+      {
+        "type" : "header",
+        "content" : "Block 1"
+      },
+      {
+        "type" : "checkbox",
+        "id" : "show-block1",
+        "label" : "Show Block" 
+      },
+      {
+        "type" : "text",
+        "id" : "title1",
+        "label" : "Title"
+      },
+      {
+        "type" : "richtext",
+        "id" : "content1",
+        "label" : "Content"
+      },
+      {
+        "type" : "richtext",
+        "id" : "contentbot1",
+        "label" : "Bottom Content"
+      },
+      {
+        "type" : "header",
+        "content" : "Block 2"
+      },
+      {
+        "type" : "checkbox",
+        "id" : "show-block2",
+        "label" : "Show Block" 
+      },
+      {
+        "type" : "text",
+        "id" : "title2",
+        "label" : "Title"
+      },
+      {
+        "type" : "richtext",
+        "id" : "content2",
+        "label" : "Content"
+      },
+      {
+        "type" : "richtext",
+        "id" : "contentbot2",
+        "label" : "Bottom Content"
+      }
+    ],
+    "presets" : [
+      {
+        "name": "Custom Hotspot Section"
+      }
+    ]
+  }
+{% endschema %}

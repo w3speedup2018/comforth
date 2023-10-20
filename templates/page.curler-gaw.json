@@ -1,0 +1,1 @@
+{"sections":{"main":{"type":"main-page","custom_css":[".link,.prose a:not( .h1, .h2, .h3, .h4, .h5, .h6, .button, .link-faded, .link-faded-reverse ) {text-underline: none; color: #e6bc63;}","h2 {color: #e6bd63;}"],"settings":{"show_title":true,"page_width":"xs"}}},"order":["main"]}

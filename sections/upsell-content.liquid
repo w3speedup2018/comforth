@@ -1,0 +1,272 @@
+{{- 'custom-style.css' | asset_url | stylesheet_tag: preload: true -}}
+
+<div class="upsell-section{% if section.settings.hide == true %} hide{% endif %}">
+  <div class="page-width">
+    <div class="upsell-main-content"{% if section.settings.bg-color != blank %} style="background-color: {{ section.settings.bg-color }}"{% endif %}>
+      {% if section.settings.title != blank %}<h2>{{ section.settings.title }}</h2>{% endif %}
+      <div class="up-pro-slider">
+        {% for block in section.blocks %}
+          {% assign product = block.settings.product %}
+          <div class="up-pro-slide">
+            <div class="upsell-prod">
+              <div class="upro-media">
+                <a href="{{ product.url }}">
+                {% if block.settings.image != blank %}
+                  <img src="{{ block.settings.image | img_url : 'master' }}">
+                {% else %}
+                  <img src="{{ product.featured_image | img_url : 'master' }}">
+                {% endif %}
+                </a>
+              </div>
+              <div class="upro-content">
+                <a href="{{ product.url }}">
+                <h3>{{ product.title }}</h3>
+                <div class="up-price">
+                   <div class="v-stack-custom">
+                        
+                      {%- liquid
+      if product.price_varies and settings.product_price_strategy != 'from_price'
+        assign variant = product.variants | sort: 'price' | last | default: product.selected_or_first_available_variant
+      else
+        assign variant = product.variants | sort: 'price' | first | default: product.selected_or_first_available_variant
+      endif
+
+      if settings.currency_code_enabled
+        assign variant_price = variant.price | money_with_currency
+        assign variant_compare_at_price = variant.compare_at_price | money_with_currency
+      else
+        assign variant_price = variant.price | money
+        assign variant_compare_at_price = variant.compare_at_price | money
+      endif
+    -%}
+
+    {%- if product.price_varies -%}
+      {%- assign is_variant_on_sale = false -%}
+
+      {%- if variant.price < variant.compare_at_price -%}
+        {%- assign is_variant_on_sale = true -%}
+      {%- endif -%}
+
+      {%- if settings.product_price_strategy == 'from_price' -%}
+        <sale-price class="{% if is_variant_on_sale %}{{ on_sale_price_classes }}{% else %}{{ regular_price_classes }}{% endif %}">
+          <span class="sr-only">{{ 'product.price.sale_price' | t }}</span>
+          {{- 'product.price.from_price_html' | t: price_min: variant_price -}}
+        </sale-price>
+      {%- else -%}
+        <sale-price class="{{ on_sale_price_classes }}">
+          <span class="sr-only">{{ 'product.price.sale_price' | t }}</span>
+          {{- variant_price -}}
+        </sale-price>
+      {%- endif -%}
+    {%- else -%}
+      <sale-price class="{% if variant.price < variant.compare_at_price %}{{ on_sale_price_classes }}{% else %}{{ regular_price_classes }}{% endif %}" style="color: #e66363; ">
+        <span class="sr-only">{{ 'product.price.sale_price' | t }}</span>
+        {{- variant_price -}}
+      </sale-price>
+    {%- endif -%}
+
+    {%- if variant.price < variant.compare_at_price -%}
+      <compare-at-price class="{{ compare_at_price_classes }}" style="color: #6a6a6a; text-decoration: line-through;  margin-left: 10px;">
+        <span class="sr-only">{{ 'product.price.regular_price' | t }}</span>
+        {{- variant_compare_at_price -}}
+      </compare-at-price>
+    
+    {%- endif -%}
+
+                        {%- if block.settings.show_taxes_notice -%}
+                          <p class="text-sm text-subdued">
+                            {%- if cart.taxes_included -%}
+                              {{ 'product.general.taxes_included' | t }}
+                            {%- else -%}
+                              {{ 'product.general.taxes_excluded' | t }}
+                            {%- endif -%}
+          
+                            {%- if shop.shipping_policy.body != blank -%}
+                              {{ 'product.general.shipping_policy_html' | t: link: shop.shipping_policy.url }}
+                            {%- endif -%}
+                          </p>
+                        {%- endif -%}
+                      </div>
+                </div>
+                </a>
+                <div class="custom-text-block">
+                  {% if block.settings.mark-text != blank %}<p class="mark-text">
+                      
+                        <img src="https://cdn.shopify.com/s/files/1/0512/8827/7180/files/mak-icon.png?v=1680760623">
+                    {{ block.settings.mark-text }}
+                    </p>{% endif %}
+                  {% if block.settings.cust-text != blank %}
+                    <div class="up-cus-text">
+                      {{ block.settings.cust-text }}
+                    </div>
+                  {% endif %}
+                </div>
+              <div class="up-addtocart">
+                
+                  <div class="">
+                    {% if product.has_only_default_variant %}
+                    <div class="size-row">
+                      <buy-buttons class="buy-buttons" data-id="{{ product.selected_or_first_available_variant.id }}">
+                      {%- render 'buy-buttons',
+                          product: product,
+                          form_id: product_form_id,
+                          show_payment_button: block.settings.show_payment_button,
+                          show_gift_card_recipient: block.settings.show_gift_card_recipient,
+                          atc_button_background: block.settings.atc_button_background,
+                          atc_button_text_color: block.settings.atc_button_text_color,
+                          payment_button_background: block.settings.payment_button_background,
+                          payment_button_text_color: block.settings.payment_button_text_color
+                      -%}
+                      </buy-buttons>
+                    </div>
+                    {% else %}
+                    {% for opt in product.options_with_values %}
+                    <div class="size-row">
+                      {% for var in product.variants %}
+                      {% if var.available %} 
+                      {% assign spanclass='' %}
+                      {% else %} 
+                      {% assign spanclass='not-available' %}
+                      {% endif %}
+                      {% if opt.values contains var.option1 %}
+                    <a href="{{ routes.cart_url }}" {% if settings.cart_type != 'page' and request.page_type != 'cart' %}aria-controls="cart-drawer"{% endif %}>
+                     <form method="post" action="/cart/add">
+                          <input type="hidden" name="id" value="{{ var.id }}" />
+                          <input
+                              class="buy-buttons button w-full"
+                              onclick="_addMeToCart(event,this)"
+                              data-action="open-drawer"
+                              data-drawer-id="sidebar-cart"
+                              data-variant-id="{{ var.id }}"
+                              style="margin-bottom: 5px;"
+                              type="submit"
+                              value="{{ var.option1 }}"
+                          />
+                      </form>
+                    </a>
+                      {% endif %}
+                      {% endfor %}
+                    </div>
+                    {% endfor %}
+                    {% endif %}
+                    </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const addToCartButtons = document.querySelectorAll(
+            '[data-action="open-drawer"]'
+        );
+
+        addToCartButtons.forEach((button) => {
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+                const variantId = this.dataset.variantId;
+                console.log('Button clicked. Variant ID:', variantId); // Til fejlfinding
+                _addMeToCart(variantId);
+            });
+        });
+    });
+
+    function _addMeToCart(variantId) {
+        console.log('Inside _addMeToCart. Variant ID:', variantId); // Til fejlfinding
+
+        let formData = {
+            'items': [
+                {
+                    'id': variantId,
+                    'quantity': 1
+                }
+            ]
+        };
+
+        fetch('/cart/add.js', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(formData)
+        })
+            .then((resp) => resp.json())
+            .then((data) => {
+                console.log('Product added to cart:', data); // Til fejlfinding
+                document.documentElement.dispatchEvent(
+                    new CustomEvent('cart:refresh', {
+                        bubbles: true
+                    })
+                );
+            })
+            .catch((err) => {
+                console.error('Error: ' + err);
+            });
+    }
+
+    
+  
+</script>
+
+{% schema %}
+  {
+    "name": "Upsell Section",
+    "settings": [
+      {
+        "type" : "checkbox",
+        "id" : "hide",
+        "label" : "Hide This Section",
+        "default" : true
+      },
+      {
+        "type" : "color",
+        "id" : "bg-color",
+        "label" : "Background Color"
+      },
+      {
+        "type" : "text",
+        "id" : "title",
+        "label" : "Title"
+      }
+    ],
+    "max_blocks": 6,
+    "blocks" : [
+      {
+        "type" : "product",
+        "name" : "Product",
+        "settings" : [
+          {
+            "type" : "image_picker",
+            "id" : "image",
+            "label" : "Image"
+          },
+          {
+            "type" : "product",
+            "id" : "product",
+            "label" : "Product"
+          },
+          {
+            "type" : "text",
+            "id" : "mark-text",
+            "label" : "Mark Text"
+          },
+          {
+            "type" : "richtext",
+            "id" : "cust-text",
+            "label" : "Custom Text"
+          }
+        ]
+      }
+    ],
+    "presets" : [
+      {
+        "name": "Upsell Section"
+      }
+    ]
+  }
+{% endschema %}
