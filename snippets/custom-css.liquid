@@ -1,0 +1,101 @@
+<style>
+@media (prefers-reduced-motion: no-preference){
+.js [reveal-on-scroll=true] {
+    opacity: 1!important;
+}}
+html {
+    padding-bottom: 60px;
+}
+@media screen and (min-width: 1200px){
+.collection__main product-list product-card.product-card .product-card__info span.stamped-product-reviews-badge.stamped-main-badge {
+    min-height: 27.3px;
+}
+:root{
+    --announcement-bar-height: 29px!important;
+}
+}
+@media screen and (max-width: 575px){
+.collection__main product-list product-card.product-card .product-card__info span.stamped-product-reviews-badge.stamped-main-badge {
+    min-height: 53.69px;
+}}
+slideshow-carousel > .slideshow__slide:first-child, 
+slideshow-carousel > .slideshow__slide:first-child * {
+    opacity: 1 !important;
+    transform: none !important;
+    animation: none !important;
+}
+.product-info__block-item .shopify-app-block span.stamped-product-reviews-badge.stamped-main-badge {
+    min-height: 9.64px;
+}
+.product-info__block-item anyday-price-widget {
+    min-height: 21.58px;
+}
+.block-swatch {
+    --swatch-border-size: 1px;
+    --swatch-padding: calc(var(--input-padding-block) - var(--swatch-border-size) * 2) .875rem;
+    --swatch-disabled-strike-color: rgb(var(--border-color));
+    padding: var(--swatch-padding);
+    min-width: 2.5rem;
+    border-width: var(--swatch-border-size);
+    border-radius: var(--input-border-radius);
+    color: rgb(var(--text-color) / .65);
+    justify-content: center;
+    align-items: center;
+    column-gap: .875rem;
+    display: flex;
+    position: relative;
+}
+html:not(.jsload) scroll-carousel.product-gallery__carousel .product-gallery__media.snap-center:not(.is-initial) {
+    display: none;
+}
+main#main .shopify-section--custom-liquid .trustpilot-widget {
+    max-height: 20px;
+}
+.shopify-policy__container {    
+    max-width: 56.25rem;    
+    margin-block-start: var(--section-with-border-vertical-spacing-tight);
+    margin-block-end: var(--section-with-border-vertical-spacing-tight);
+}
+main#main > .shopify-section:first-child image-with-text img,
+section.shopify-section--image-with-text-overlay image-with-text-overlay.content-over-media.content-over-media--md img,
+section.shopify-section--image-with-text-overlay image-with-text-overlay.content-over-media--md.content-over-media>.content{
+    transform: none !important;
+    opacity: 1 !important;
+}
+.product-info__block-item .liquid .trustpilot-widget {
+    max-height: 20px;
+}
+{% if product.available %}
+{% else %}
+buy-buttons.buy-buttons button.button.w-full {
+    max-height: 23.9px;
+    opacity: 0;
+}
+{% endif %}
+@font-face {
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/montserrat/v26/JTUSjIg1_i6t8kCHKm459Wlhyw.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Nunito Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/nunitosans/v15/pe0TMImSLYBIv1o4X1M8ce2xCx3yop4tQpF_MeTm0lfGWVpNn64CL7U8upHZIbMV51Q42ptCp7t1R-s.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Nunito Sans';
+  font-style: normal;
+  font-weight: 700;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/nunitosans/v15/pe0TMImSLYBIv1o4X1M8ce2xCx3yop4tQpF_MeTm0lfGWVpNn64CL7U8upHZIbMV51Q42ptCp7t1R-s.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+</style>

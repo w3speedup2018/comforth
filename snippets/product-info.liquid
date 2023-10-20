@@ -168,7 +168,11 @@ Supported variables
             </div>
 
           <!-- Anyday PriceWidget -->
-          <script src="https://my.anyday.io/price-widget/anyday-price-widget.js" type="module" async></script>
+          {% if template contains 'product' %}
+              <script src="https://my.anyday.io/price-widget/anyday-price-widget.js" type="module" async></script>
+          {% else %}
+              <script data-src="https://my.anyday.io/price-widget/anyday-price-widget.js" data-w3-type="module" type="lazyload_int"></script>
+          {% endif %}
           <anyday-price-widget style="display: flex;margin: 0 0 0 -14px;font-weight: 500;color:#000;" currency="DKK" price-selector=".ProductMeta__PriceList .ProductMeta__Price.Price" token="50a5298436e440e095d98c7307cdd784" price-format-locale="da-DK" locale="da-DK" theme="light" size="small" message="1" heading="2" orientation="logo-right" shop-name="comforth.dk" fully-clickable="true" custom-css=""></anyday-price-widget>
           <style>
            anyday-price-widget{
@@ -429,7 +433,7 @@ Supported variables
                   {%- capture sizes -%}{{ block.settings.icon_width }}px{%- endcapture -%}
                   {%- capture widths -%}{{ block.settings.icon_width }}, {{ block.settings.icon_width | times: 2 | at_most: block.settings.custom_icon.width }}{%- endcapture -%}
                   {%- capture style -%}--image-max-width: {{ block.settings.icon_width }}px{%- endcapture -%}
-                  {{- block.settings.custom_icon | image_url: width: block.settings.custom_icon.width | image_tag: loading: 'lazy', sizes: sizes, widths: widths, class: 'constrained-image', style: style -}}
+                  {{- block.settings.custom_icon | image_url: width: block.settings.custom_icon.width | image_tag: loading: 'lazy', sizes: sizes, widths: widths, class: 'constrained-image', style: style | replace: ' src="' , ' src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=" data-class="LazyLoad" data-src="' | replace: ' srcset="' , ' data-srcset="' -}}
                 {%- else -%}
                   {%- render 'icon' with block.settings.icon, width: block.settings.icon_width -%}
                 {%- endif -%}
@@ -490,7 +494,7 @@ Supported variables
                 {%- capture image_style_attribute -%}width: 100%;{%- endcapture -%}
               {%- endif -%}
 
-              {{- block.settings.image | image_url: width: block.settings.image.width | image_tag: loading: 'lazy', sizes: image_sizes_attribute, widths: '200,300,400,500,600,800,1000,1200,1400', class: 'constrained-image', style: image_style_attribute -}}
+              {{- block.settings.image | image_url: width: block.settings.image.width | image_tag: loading: 'lazy', sizes: image_sizes_attribute, widths: '200,300,400,500,600,800,1000,1200,1400', class: 'constrained-image', style: image_style_attribute | replace: ' src="' , ' src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=" data-class="LazyLoad" data-src="' | replace: ' srcset="' , ' data-srcset="' -}}
             {%- endif -%}
 
           {%- when 'button' -%}

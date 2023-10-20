@@ -29,7 +29,7 @@ if(videoPlayer !== null){
 
 
 
-  $(document).ready(function() {
+  setTimeout(function() {
     
     $('.up-pro-slider').slick({
     dots: true,
@@ -53,7 +53,7 @@ if(videoPlayer !== null){
 
   $('.up-pro-slide:only-child').parents('.up-pro-slider').addClass('one-slide');
 	
-});
+},3000);
 
 /*$(document).ready(function() {
   var $slider = $('.up-pro-slider');

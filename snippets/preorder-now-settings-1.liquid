@@ -1,4 +1,4 @@
-<script type="text/javascript">
+<script type="lazyload_int">
   {% if cart %}
     window.pn.cart = {};
   	window.pn.cart = {{cart | json}}
@@ -24,7 +24,7 @@
 </script>
 
 {% raw %}
-<script>
+<script type="lazyload_int">
 if(typeof pn === "undefined"){
   pn = {};
 }

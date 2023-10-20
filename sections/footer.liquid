@@ -26,10 +26,10 @@
 
                     {%- if block.settings.link != blank -%}
                       <a href="{{ block.settings.link }}">
-                        {{- block.settings.image | image_url: width: block.settings.image.width | image_tag: sizes: sizes, widths: widths, style: style, class: 'constrained-image' -}}
+                        {{- block.settings.image | image_url: width: block.settings.image.width | image_tag: sizes: sizes, widths: widths, style: style, class: 'constrained-image' | replace: ' src="' , ' src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=" data-class="LazyLoad" data-src="' | replace: ' srcset="' , ' data-srcset="' -}}
                       </a>
                     {%- else -%}
-                      {{- block.settings.image | image_url: width: block.settings.image.width | image_tag: sizes: sizes, widths: widths, style: style, class: 'constrained-image' -}}
+                      {{- block.settings.image | image_url: width: block.settings.image.width | image_tag: sizes: sizes, widths: widths, style: style, class: 'constrained-image' | replace: ' src="' , ' src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=" data-class="LazyLoad" data-src="' | replace: ' srcset="' , ' data-srcset="' -}}
                     {%- endif -%}
                   {%- endif -%}
 
@@ -46,12 +46,12 @@
                         </div>
                       {%- elsif block.settings.title == "Track & trace" -%}
                         <div class="flexfooteren midt">
-                        <img src="//cdn.shopify.com/s/files/1/0512/8827/7180/files/DAO_GLS.png?v=1691065109" style="max-height:40px;" class="footermidt1" loading="lazy">
+                        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=" data-class="LazyLoad" data-src="//cdn.shopify.com/s/files/1/0512/8827/7180/files/DAO_GLS.png?v=1691065109" style="max-height:40px;" class="footermidt1" loading="lazy">
                         </div>
                       {%- elsif block.settings.title == "Sikker e-handel" -%}
                         <div class="flexfooteren midt">
                         <div id="emaerket-widget-cppb8dfrut"></div>
-                        <a href="https://www.trustpilot.com/review/comforth.dk"><img src="https://cdn.shopify.com/s/files/1/0512/8827/7180/files/trustpilot-footer.jpg?v=1689672254" style="max-height:30px;" /></a>
+                        <a href="https://www.trustpilot.com/review/comforth.dk"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=" data-class="LazyLoad" data-src="https://cdn.shopify.com/s/files/1/0512/8827/7180/files/trustpilot-footer.jpg?v=1689672254" style="max-height:30px;" /></a>
                       </div>
                         {%- endif -%}
 
